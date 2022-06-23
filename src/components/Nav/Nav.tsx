@@ -2,15 +2,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { Navbar, NavItem, NavLink } from "react-bootstrap";
 
 const Nav = () => {
-  return (
+  return (    
     <Navbar>
-        <NavItem>
-            <NavLink>
-              <Link to="/" className="nav-link" >
-                Home
-              </Link>
-            </NavLink>
-        </NavItem>
+      <NavItem>
+        <Link to="/" className="nav-link">
+          Home
+        </Link>
+      </NavItem>
+       {localStorage.getItem("token") && (
+          <NavItem>
+            <NavLink >Logout</NavLink>
+          </NavItem>
+      )}
     </Navbar>
   );
 }
