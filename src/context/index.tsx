@@ -1,4 +1,4 @@
-import  { createContext, useState, useEffect } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
 // how data will look
@@ -9,18 +9,12 @@ interface User {
   } | null;
   error: string | null;
   loading: boolean;
-};
+}
 
 // user context, that can also update the state
 const UserContext = createContext<
   [User, React.Dispatch<React.SetStateAction<User>>]
->([
-    { 
-        data: null, 
-        loading: true, 
-        error: null 
-    }, () => {}
-]);
+>([{ data: null, loading: true, error: null }, () => {}]);
 
 const UserProvider = ({ children }: any) => {
 
@@ -38,11 +32,10 @@ const UserProvider = ({ children }: any) => {
   }
 
   const fetchUser = async () => {
-    // get the data
-    const {  data: response } = await axios.get("http://localhost:8080/auth/me");
+    const { data: response } = await axios.get("http://localhost:8080/auth/me");
 
     if (response.data && response.data.user) {
-        setUser({
+      setUser({
         data: {
           id: response.data.user.id,
           email: response.data.user.email,

@@ -1,8 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
 import { Navbar, NavItem, NavLink } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../context";
-
 import styled from "styled-components";
 
 const LeftNavContainer = styled.div`
@@ -10,7 +9,6 @@ const LeftNavContainer = styled.div`
 `;
 
 const Nav = () => {
-
   const [state, setState] = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -20,15 +18,14 @@ const Nav = () => {
     localStorage.removeItem("token");
     navigate("/");
   };
-
-  return (    
+  return (
     <Navbar>
       <NavItem>
         <Link to="/" className="nav-link">
           Home
         </Link>
       </NavItem>
-       {state.data && (
+      {state.data && (
         <LeftNavContainer>
           <NavItem>
             <NavLink onClick={handleLogout}>Logout</NavLink>
@@ -37,6 +34,6 @@ const Nav = () => {
       )}
     </Navbar>
   );
-}
+};
 
 export default Nav;

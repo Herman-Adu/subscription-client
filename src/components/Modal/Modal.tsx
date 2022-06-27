@@ -1,8 +1,9 @@
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context";
 
 interface ModalProps {
   text: string;
@@ -25,6 +26,8 @@ const ModalComponent  = ({ text, variant, isSignupFlow }: ModalProps) => {
 
   const navigate = useNavigate();
 
+  const [state, setState] = useContext(UserContext);
+
   const handleClick = async () => {
     let response;
 
@@ -46,7 +49,22 @@ const ModalComponent  = ({ text, variant, isSignupFlow }: ModalProps) => {
       return setErrorMsg(response.errors[0].msg);
     }
 
+    // so logout is set
+    setState({
+      data: {
+        id: response.data.user.id,
+        email: response.data.user.email,
+      },
+      loading: false,
+      error: null,
+    });
+
     localStorage.setItem("token", response.data.token);
+
+    // set the axios header to have the token
+    axios.defaults.headers.common[
+      "authorization"
+    ] = `Bearer ${response.data.token}`;
    
     navigate("/articles")
   }
